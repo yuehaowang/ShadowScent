@@ -9,8 +9,9 @@ public class CharacterManage : MonoBehaviour {
 
 	private GameObject player;
 	private float lmh;
+    const float v = 0.5f, w = 1.0f;
 
-	void Start () {
+    void Start () {
 		Input.compass.enabled = true; 
 		Input.gyro.enabled = true; 
 		player = Instantiate<GameObject>(characterPrefab, gameObject.transform);
@@ -24,11 +25,9 @@ public class CharacterManage : MonoBehaviour {
 	}
 
 	void Update () {
-		const float v = 0.5f, w = 1.0f;
-
 		//player.transform.Rotate(Input.compass.rawVector-lvct);
 		//lvct=Input.compass.rawVector;
-
+        
 		if (Input.GetKey(KeyCode.A)) {
 			player.transform.Rotate(new Vector3(0, -w));
 		}
