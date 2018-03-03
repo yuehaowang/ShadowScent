@@ -6,7 +6,6 @@ using UnityEngine;
 public class CharacterManage : MonoBehaviour {
 	
 	public GameObject characterPrefab;
-
 	private GameObject player;
 	private float lmh;
     const float v = 0.5f, w = 1.0f;
