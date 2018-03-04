@@ -8,7 +8,7 @@ public class Map : MonoBehaviour {
 	public GameObject wallPrefab;
 
 	void Start () {
-
+		
 	}
 
 	void Update () {
