@@ -21,8 +21,7 @@ public class Character : MonoBehaviour {
 
 	void OnCollisionEnter(Collision c) {
 		if (c.gameObject.tag == "Wall") {
-			Debug.Log("hits wall");
-			AudioSource audio = GetComponent<AudioSource>();
+			AudioSource audio = c.gameObject.GetComponent<AudioSource>();
 			audio.Play();
 		}
 	}
