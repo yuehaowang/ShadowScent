@@ -9,7 +9,7 @@ public class CharacterManage : MonoBehaviour
 
     public GameObject characterPrefab;
     private GameObject player;
-    private float lmh, llmh, mhft, lmhft;
+    private float mh, lmh, llmh, mhft, lmhft;
     const float v = 0.5f, w = 1.0f;
     Quaternion qe;
 
@@ -29,8 +29,6 @@ public class CharacterManage : MonoBehaviour
         GUILayout.Label(Input.compass.rawVector.ToString());//-42-42??
         GUILayout.Label(Input.gyro.attitude.ToString());
         GUILayout.Label(Input.compass.magneticHeading.ToString());
-
-
     }
 
     void Update()
@@ -54,95 +52,56 @@ public class CharacterManage : MonoBehaviour
         {
             player.transform.Translate(Vector3.forward * -v, Space.Self);
         }
-        mhft = 0.3f * llmh + 0.4f * lmh + 0.3f * Input.compass.magneticHeading;
+
+        mh = Input.compass.magneticHeading;
+        if (llmh > 270)
+        {
+            if (lmh < 90)
+                lmh += 360;
+            if (mh < 90)
+                mh += 360;
+        }
+        else if (lmh > 270)
+        {
+            if (llmh < 90)
+                llmh += 360;
+            if (mh < 90)
+                mh += 360;
+        }
+        else if (mh > 270)
+        {
+            if (llmh < 90)
+                llmh += 360;
+            if (lmh < 90)
+                lmh += 360;
+        }
+
+        mhft = 0.3f * llmh + 0.4f * lmh + 0.3f * mh;
+
+        if (lmhft > 270)
+        {
+            if (mhft < 90)
+                mhft += 360;
+        }
+        else if (mhft > 270)
+        {
+            if (lmhft < 90)
+                lmhft += 360;
+        }
+
         if (lmhft - mhft <= -2 || lmhft - mhft >= 2)
         {
             qe = Quaternion.Euler(0, mhft, 0);
             player.transform.rotation = qe;
-            llmh = lmh;
+            llmh = lmh % 360;
             lmh = Input.compass.magneticHeading;
-            lmhft = mhft;
+            lmhft = mhft % 360;
         }
-
 
         if (Input.touchCount > 0)
             player.transform.Translate(Vector3.forward * v, Space.Self);
 
+
     }
 
-}
-
-public class FilterButterworth
-{
-    /// <summary>
-    /// rez amount, from sqrt(2) to ~ 0.1
-    /// </summary>
-    private readonly float resonance;
-
-    private readonly float frequency;
-    private readonly int sampleRate;
-    private readonly PassType passType;
-
-    private readonly float c, a1, a2, a3, b1, b2;
-
-    /// <summary>
-    /// Array of input values, latest are in front
-    /// </summary>
-    private float[] inputHistory = new float[2];
-
-    /// <summary>
-    /// Array of output values, latest are in front
-    /// </summary>
-    private float[] outputHistory = new float[3];
-
-    public FilterButterworth(float frequency, int sampleRate, PassType passType, float resonance)
-    {
-        this.resonance = resonance;
-        this.frequency = frequency;
-        this.sampleRate = sampleRate;
-        this.passType = passType;
-
-        switch (passType)
-        {
-            case PassType.Lowpass:
-                c = 1.0f / (float)Math.Tan(Math.PI * frequency / sampleRate);
-                a1 = 1.0f / (1.0f + resonance * c + c * c);
-                a2 = 2f * a1;
-                a3 = a1;
-                b1 = 2.0f * (1.0f - c * c) * a1;
-                b2 = (1.0f - resonance * c + c * c) * a1;
-                break;
-            case PassType.Highpass:
-                c = (float)Math.Tan(Math.PI * frequency / sampleRate);
-                a1 = 1.0f / (1.0f + resonance * c + c * c);
-                a2 = -2f * a1;
-                a3 = a1;
-                b1 = 2.0f * (c * c - 1.0f) * a1;
-                b2 = (1.0f - resonance * c + c * c) * a1;
-                break;
-        }
-    }
-
-    public enum PassType
-    {
-        Highpass,
-        Lowpass,
-    }
-
-    public void Update(float newInput)
-    {
-        float newOutput = a1 * newInput + a2 * this.inputHistory[0] + a3 * this.inputHistory[1] - b1 * this.outputHistory[0] - b2 * this.outputHistory[1];
-
-        this.inputHistory[1] = this.inputHistory[0];
-        this.inputHistory[0] = newInput;
-
-        this.outputHistory[2] = this.outputHistory[1];
-        this.outputHistory[1] = this.outputHistory[0];
-        this.outputHistory[0] = newOutput;
-    }
-
-    public float Value
-    {
-        get { return this.outputHistory[0]; }
-    }
 }
