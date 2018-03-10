@@ -2,15 +2,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using System.Threading;
 
 public class CharacterManage : MonoBehaviour
 {
 
     public GameObject characterPrefab;
     private GameObject player;
-    private float mh, lmh, llmh, mhft, lmhft;
+    private float basis, mh, lmh, llmh, mhft, lmhft;
     const float v = 0.5f, w = 1.0f;
+    bool flag = true;
     Quaternion qe;
 
     void Start()
@@ -19,6 +20,7 @@ public class CharacterManage : MonoBehaviour
         Input.gyro.enabled = true;
         player = Instantiate<GameObject>(characterPrefab, gameObject.transform);
         player.tag = "Player";
+        basis = 0f;
         lmh = Input.compass.magneticHeading;
         llmh = Input.compass.magneticHeading;
         lmhft = Input.compass.magneticHeading;
@@ -26,16 +28,21 @@ public class CharacterManage : MonoBehaviour
 
     void OnGUI()
     {
-        GUILayout.Label(Input.compass.rawVector.ToString());//-42-42??
         GUILayout.Label(Input.gyro.attitude.ToString());
         GUILayout.Label(Input.compass.magneticHeading.ToString());
+        GUILayout.Label(basis.ToString());
+        GUILayout.Label(mh.ToString());
     }
 
     void Update()
     {
         //player.transform.Rotate(Input.compass.rawVector-lvct);
         //lvct=Input.compass.rawVector;
-
+        if (flag && Input.compass.magneticHeading != 0)
+        {
+            basis = Input.compass.magneticHeading;
+            flag = false;
+        }
         if (Input.GetKey(KeyCode.A))
         {
             player.transform.Rotate(new Vector3(0, -w));
@@ -53,7 +60,7 @@ public class CharacterManage : MonoBehaviour
             player.transform.Translate(Vector3.forward * -v, Space.Self);
         }
 
-        mh = Input.compass.magneticHeading;
+        mh = Input.compass.magneticHeading - basis > 0 ? Input.compass.magneticHeading - basis : Input.compass.magneticHeading - basis + 360;
         if (llmh > 270)
         {
             if (lmh < 90)
@@ -94,7 +101,7 @@ public class CharacterManage : MonoBehaviour
             qe = Quaternion.Euler(0, mhft, 0);
             player.transform.rotation = qe;
             llmh = lmh % 360;
-            lmh = Input.compass.magneticHeading;
+            lmh = mh % 360;
             lmhft = mhft % 360;
         }
 
