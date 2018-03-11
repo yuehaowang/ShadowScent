@@ -11,7 +11,7 @@ public class Character : MonoBehaviour {
 		if (gameObject.tag == "Player") {
 			GameObject mainCamera = Instantiate<GameObject>(mainCameraPrefab, gameObject.transform);
 //			mainCamera.transform.Translate(0, 3.0f, 3.0f);
-			mainCamera.transform.Translate(0, 4.0f, -11.0f);
+			mainCamera.transform.Translate(0, 4.0f, -3.0f);
 			mainCamera.transform.Rotate(new Vector3(5.0f, 0, 0));
 		}
 	}
