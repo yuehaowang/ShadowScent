@@ -6,13 +6,15 @@ using UnityEngine;
 public class Character : MonoBehaviour {
 	
 	public GameObject mainCameraPrefab;
+	private Rigidbody body;
+	private float v = 0.7f, w = 0.7f;
 
 	void Start () {
 		if (gameObject.tag == "Player") {
 			GameObject mainCamera = Instantiate<GameObject>(mainCameraPrefab, gameObject.transform);
-//			mainCamera.transform.Translate(0, 3.0f, 3.0f);
-			mainCamera.transform.Translate(0, 4.0f, -3.0f);
-			mainCamera.transform.Rotate(new Vector3(5.0f, 0, 0));
+			mainCamera.tag = "MainCamera";
+
+			body = GetComponent<Rigidbody>();
 		}
 	}
 
@@ -31,6 +33,29 @@ public class Character : MonoBehaviour {
 		if (c.gameObject.tag == "Key") {
 			Destroy(c.gameObject);
 		}
+	}
+
+	public void Propel(int dir)
+	{
+		if (dir == 0) {
+			return;
+		}
+		
+		body.MovePosition(transform.position + transform.forward * v * dir);
+	}
+
+	public void YawTo(Quaternion eq)
+	{
+		body.MoveRotation(eq);
+	}
+
+	public void Yaw(int dir)
+	{
+		if (dir == 0) {
+			return;
+		}
+
+		body.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, dir * w)));
 	}
 
 }

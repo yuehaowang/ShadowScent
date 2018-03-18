@@ -8,9 +8,9 @@ public class CharacterManage : MonoBehaviour
 {
 
     public GameObject characterPrefab;
-	public const float v = 0.5f, w = 1.0f;
 	private GameObject player;
-	private CompassController compass;
+	private CompassController compassControl;
+	private TouchController touchControl;
 
     void Start()
     {
@@ -18,49 +18,113 @@ public class CharacterManage : MonoBehaviour
         player = Instantiate<GameObject>(characterPrefab, gameObject.transform);
         player.tag = "Player";
 
-		compass = new CompassController();
+		compassControl = new CompassController();
+		touchControl = new TouchController();
     }
 
     void OnGUI()
     {
-		compass.Debug();
+		compassControl.Debug();
     }
 
     void Update()
     {
+		ControlPlayer();
+    }
+
+	private void ControlPlayer()
+	{
+		int moveDir = 0;
+		Character c = player.GetComponent<Character>();
+
 		if (Input.GetKey(KeyCode.A)) {
-			player.transform.Rotate(new Vector3(0, -w));
+			c.Yaw(-1);
 		}
 		if (Input.GetKey(KeyCode.D)) {
-			player.transform.Rotate(new Vector3(0, w));
+			c.Yaw(1);
 		}
 		if (Input.GetKey(KeyCode.W)) {
-			player.transform.Translate(Vector3.forward * v, Space.Self);
+			moveDir = 1;
 		}
 		if (Input.GetKey(KeyCode.S)) {
-			player.transform.Translate(Vector3.forward * -v, Space.Self);
-		}
-			
-		compass.Update();
-
-		if (compass.changed) {
-			player.transform.rotation = compass.value;
+			moveDir = -1;
 		}
 
-		if (Input.touchCount > 0) {
-			player.transform.Translate(Vector3.forward * v, Space.Self);
+		touchControl.Update();
+
+		if (touchControl.directionY == TouchController.Direction.UP) {
+			moveDir = 1;
+		} else if (touchControl.directionY == TouchController.Direction.DOWN) {
+			moveDir = -1;
 		}
-    }
+
+		c.Propel(moveDir);
+
+
+		compassControl.Update();
+
+		if (compassControl.changed) {
+			c.YawTo(compassControl.value);
+		}
+	}
 
 }
 
-class CompassController
+public class TouchController
+{
+	public enum Direction {
+		NONE,
+		UP,
+		DOWN,
+		LEFT,
+		RIGHT
+	}
+
+	private Vector2 prePos;
+	public Direction directionX = Direction.NONE;
+	public Direction directionY = Direction.NONE;
+
+	public void Update()
+	{
+		if (Input.touchCount > 0) {
+			Touch t = Input.GetTouch(0);
+
+			switch (t.phase) {
+			case TouchPhase.Began:
+				prePos = t.position;
+
+				break;
+			
+			case TouchPhase.Moved:
+				Vector2 temp = t.position - prePos;
+
+				if (temp.y > 0) {
+					directionY = Direction.UP;
+				} else if (temp.y < 0) {
+					directionY = Direction.DOWN;
+				}
+
+				prePos = t.position;
+
+				break;
+			
+			case TouchPhase.Ended:
+				directionX = Direction.NONE;
+				directionY = Direction.NONE;
+
+				break;
+			}
+		}
+	}
+}
+
+public class CompassController
 {
 	private bool flag = true;
 	private Quaternion qe;
 	private float basis, mh, lmh, llmh, mhft, lmhft;
 	public Quaternion value;
-	public bool changed;
+	public bool changed = false;
 
 	public CompassController()
 	{
