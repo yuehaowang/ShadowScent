@@ -80,7 +80,7 @@ public class TouchController
 		RIGHT
 	}
 
-	private Vector2 prePos;
+	private float prePosY, prePosX, turningThreshold = 40;
 	public Direction directionX = Direction.NONE;
 	public Direction directionY = Direction.NONE;
 
@@ -91,20 +91,34 @@ public class TouchController
 
 			switch (t.phase) {
 			case TouchPhase.Began:
-				prePos = t.position;
+				prePosY = t.position.y;
+				prePosX = t.position.x;
 
 				break;
 			
 			case TouchPhase.Moved:
-				Vector2 temp = t.position - prePos;
+				float tempY = t.position.y - prePosY, tempX = t.position.x - prePosX;
 
-				if (temp.y > 0) {
-					directionY = Direction.UP;
-				} else if (temp.y < 0) {
-					directionY = Direction.DOWN;
+				if (Mathf.Abs(tempY) > turningThreshold) {
+					if (tempY > 0) {
+						directionY = Direction.UP;
+					} else if (tempY < 0) {
+						directionY = Direction.DOWN;
+					}
+
+					prePosY = t.position.y;
 				}
 
-				prePos = t.position;
+				if (Mathf.Abs(tempX) > turningThreshold) {
+					if (tempX > 0) {
+						directionX = Direction.RIGHT;
+					} else if (tempX < 0) {
+						directionX = Direction.LEFT;
+					}
+
+					prePosX = t.position.x;
+				}
+
 
 				break;
 			
