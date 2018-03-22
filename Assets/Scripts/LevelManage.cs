@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SceneManager : MonoBehaviour {
+public class LevelManage : MonoBehaviour {
     GameController.localPlayer localPlayerController;
     GameController.otherPlayer otherPlayerController;
 
