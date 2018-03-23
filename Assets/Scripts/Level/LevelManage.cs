@@ -40,67 +40,67 @@ public class LevelManage : MonoBehaviour {
     }
 }
 
-namespace GameController
-{
-
-    public class localPlayer
-    {
-        public string playerIdentity;
-        public Dictionary<string, Vector3> playerInfo;
-
-        public localPlayer(GameData.Init.localPlayer init_data)
-        {
-            this.playerIdentity = init_data.playerIdentity;
-            this.playerInfo = init_data.playerInfo;
-        }
-
-        public void updateLocalPlayerInfo(Dictionary<string, Vector3> playerInfo)
-        {
-            // update the infomation by the object in scene, the detailed information
-            // can refer to InitData Part, be supposed to be done by YueHao
-            this.playerInfo = playerInfo;
-        }
-
-        public Dictionary<string, Vector3> getLocalPlayerInfo()
-        {
-            // this function returns the information of localPlayer, should be upload to server
-            // be supposed to be done by YinCen
-            return this.playerInfo;
-        }
-        
-    }
-
-    public class otherPlayer
-    {
-        public string playerIdentity;
-        public Dictionary<string, Vector3> playerInfo;
-
-        public otherPlayer(GameData.Init.otherPlayer init_data)
-        {
-            this.playerIdentity = init_data.playerIdentity;
-            this.playerInfo = init_data.playerInfo;
-        }
-
-        public void syncOtherPlayerInfo(Dictionary<string, Vector3> playerInfo)
-        {
-            // TODO: this function should receive the information from the server, should be done
-            // by YinCen
-            this.playerInfo = playerInfo;
-        }
-
-        public void updateSceneCharacter()
-        //TODO: input the character manager maybe? this function aims at updating the states of
-        // objects in scene, should be done by YueHao
-        {
-            if (this.playerIdentity == GameData.Static.PlayerIdentity.PLAYER_UP)
-            {
-                // TODO: if the player is the upper one, sync the scene character with pos and rotation
-                Vector3 player_localEularAngle = this.playerInfo["player_localEularAngles"];
-                Vector3 player_position = this.playerInfo["player_position"];
-            } else {
-                Vector3 arrow_localEularAngle = this.playerInfo["arrow_localEularAngles"];
-                // TODO: Similarily
-            }
-        }
-    }
-}
+//namespace GameController
+//{
+//
+//    public class localPlayer
+//    {
+//        public string playerIdentity;
+//        public Dictionary<string, Vector3> playerInfo;
+//
+//        public localPlayer(GameData.Init.localPlayer init_data)
+//        {
+//            this.playerIdentity = init_data.playerIdentity;
+//            this.playerInfo = init_data.playerInfo;
+//        }
+//
+//        public void updateLocalPlayerInfo(Dictionary<string, Vector3> playerInfo)
+//        {
+//            // update the infomation by the object in scene, the detailed information
+//            // can refer to InitData Part, be supposed to be done by YueHao
+//            this.playerInfo = playerInfo;
+//        }
+//
+//        public Dictionary<string, Vector3> getLocalPlayerInfo()
+//        {
+//            // this function returns the information of localPlayer, should be upload to server
+//            // be supposed to be done by YinCen
+//            return this.playerInfo;
+//        }
+//        
+//    }
+//
+//    public class otherPlayer
+//    {
+//        public string playerIdentity;
+//        public Dictionary<string, Vector3> playerInfo;
+//
+//        public otherPlayer(GameData.Init.otherPlayer init_data)
+//        {
+//            this.playerIdentity = init_data.playerIdentity;
+//            this.playerInfo = init_data.playerInfo;
+//        }
+//
+//        public void syncOtherPlayerInfo(Dictionary<string, Vector3> playerInfo)
+//        {
+//            // TODO: this function should receive the information from the server, should be done
+//            // by YinCen
+//            this.playerInfo = playerInfo;
+//        }
+//
+//        public void updateSceneCharacter()
+//        //TODO: input the character manager maybe? this function aims at updating the states of
+//        // objects in scene, should be done by YueHao
+//        {
+//            if (this.playerIdentity == GameData.Static.PlayerIdentity.PLAYER_UP)
+//            {
+//                // TODO: if the player is the upper one, sync the scene character with pos and rotation
+//                Vector3 player_localEularAngle = this.playerInfo["player_localEularAngles"];
+//                Vector3 player_position = this.playerInfo["player_position"];
+//            } else {
+//                Vector3 arrow_localEularAngle = this.playerInfo["arrow_localEularAngles"];
+//                // TODO: Similarily
+//            }
+//        }
+//    }
+//}
