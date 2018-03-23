@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LevelManage : MonoBehaviour {
-    GameController.localPlayer localPlayerController;
-    GameController.otherPlayer otherPlayerController;
+//    GameController.localPlayer localPlayerController;
+//    GameController.otherPlayer otherPlayerController;
 
     // Use this for initialization
     void Start () {
         // Debugging, the local player is down one
         // there should be a GUI to set up the room and choose the identity
-        string localPlayerIdentity = GameData.Static.PlayerIdentity.PLAYER_DOWN;
-        GameData.Init.gameInitScene init_data = new GameData.Init.gameInitScene(localPlayerIdentity);
-        localPlayerController = new GameController.localPlayer(init_data.localPlayerInfo);
-        otherPlayerController = new GameController.otherPlayer(init_data.otherPlayerInfo);
+//        string localPlayerIdentity = GameData.Static.PlayerIdentity.PLAYER_DOWN;
+//        GameData.Init.gameInitScene init_data = new GameData.Init.gameInitScene(localPlayerIdentity);
+//        localPlayerController = new GameController.localPlayer(init_data.localPlayerInfo);
+//        otherPlayerController = new GameController.otherPlayer(init_data.otherPlayerInfo);
 	}
 	
 	// Update is called once per frame
