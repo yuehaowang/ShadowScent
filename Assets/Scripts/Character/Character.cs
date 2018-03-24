@@ -5,37 +5,12 @@ using UnityEngine;
 
 public class Character : MonoBehaviour {
 	
-	public GameObject mainCameraPrefab;
 	private Rigidbody body;
-	private float v = 0.7f, w = 0.7f;
-	public int playerId;
+	private float v = 0.5f, w = 1.0f;
 
 	void Start ()
 	{
-		if (gameObject.tag == "Player") {
-			GameObject mainCamera = Instantiate<GameObject>(mainCameraPrefab, gameObject.transform);
-			mainCamera.tag = "MainCamera";
-
-			body = GetComponent<Rigidbody>();
-		}
-	}
-
-	void Update ()
-	{
-		
-	}
-
-	void OnCollisionEnter(Collision c) {
-		if (c.gameObject.tag == "Wall") {
-			AudioSource audio = c.gameObject.GetComponent<AudioSource>();
-			audio.Play();
-		}
-	}
-
-	void OnTriggerEnter(Collider c) {
-		if (c.gameObject.tag == "Key") {
-			Destroy(c.gameObject);
-		}
+		body = GetComponent<Rigidbody>();
 	}
 
 	public void Propel(int dir)
@@ -59,19 +34,6 @@ public class Character : MonoBehaviour {
 		}
 
 		body.MoveRotation(transform.rotation * Quaternion.Euler(new Vector3(0, dir * w)));
-	}
-
-	public CharacterData GetData ()
-	{
-		return new CharacterData {
-			playerId = playerId,
-			x = transform.position.x,
-			y = transform.position.y,
-			z = transform.position.z,
-			rotationX = transform.rotation.x,
-			rotationY = transform.rotation.y,
-			rotationZ = transform.rotation.z
-		};
 	}
 
 }

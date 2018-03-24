@@ -840,7 +840,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 4956711368687350, guid: ade3bfc83ad86427d849c7a3bead99a4, type: 2}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1899853310762184, guid: ade3bfc83ad86427d849c7a3bead99a4, type: 2}
       propertyPath: m_IsActive
@@ -1094,7 +1094,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8ab73517929de4b338161ec95a603e7d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  characterPrefab: {fileID: 1899853310762184, guid: ade3bfc83ad86427d849c7a3bead99a4,
+  playerPrefab: {fileID: 1899853310762184, guid: ade3bfc83ad86427d849c7a3bead99a4,
     type: 2}
 --- !u!1001 &318442161
 Prefab:
@@ -4208,6 +4208,21 @@ Prefab:
     - target: {fileID: 1281455206116732, guid: 72eb8db657e4b48ab9a915574caf38f0, type: 2}
       propertyPath: m_StaticEditorFlags
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 65820410974569310, guid: 72eb8db657e4b48ab9a915574caf38f0,
+        type: 2}
+      propertyPath: m_Center.y
+      value: -0.08139884
+      objectReference: {fileID: 0}
+    - target: {fileID: 65820410974569310, guid: 72eb8db657e4b48ab9a915574caf38f0,
+        type: 2}
+      propertyPath: m_Center.z
+      value: 0.0000000018645405
+      objectReference: {fileID: 0}
+    - target: {fileID: 65820410974569310, guid: 72eb8db657e4b48ab9a915574caf38f0,
+        type: 2}
+      propertyPath: m_Size.y
+      value: 1.1628015
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 72eb8db657e4b48ab9a915574caf38f0, type: 2}
