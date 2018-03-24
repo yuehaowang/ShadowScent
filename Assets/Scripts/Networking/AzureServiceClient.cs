@@ -24,7 +24,7 @@ public static class AzureServiceClient {
 
 				#else
 
-				client = new MobileServiceClient(serviceUrl);
+				client = new MobileServiceClient(backendUrl);
 
 				#endif
 			}
