@@ -41,7 +41,7 @@ GameObject:
   - component: {fileID: 65829760407799600}
   - component: {fileID: 114834736404735066}
   m_Layer: 0
-  m_Name: Character
+  m_Name: Character2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -227,6 +227,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainCameraPrefab: {fileID: 1340271930523268, guid: d9e795c82e67c48e599d45387184aa6c,
     type: 2}
+  playerId: 0
 --- !u!135 &135783155650254450
 SphereCollider:
   m_ObjectHideFlags: 1
