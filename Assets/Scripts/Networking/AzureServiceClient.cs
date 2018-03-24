@@ -5,7 +5,7 @@ using Microsoft.WindowsAzure.MobileServices;
 
 public static class AzureServiceClient {
 
-	private const string serviceUrl = "http://ug.chinacloudsites.cn";
+	private const string backendUrl = "http://ug.chinacloudsites.cn";
 
 	private static MobileServiceClient client;
 
