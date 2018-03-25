@@ -94,19 +94,6 @@ public class Player : MonoBehaviour {
 		}
 	}
 
-	public CharacterData GetData ()
-	{
-		return new CharacterData {
-			playerId = playerId,
-			x = transform.position.x,
-			y = transform.position.y,
-			z = transform.position.z,
-			rotationX = transform.rotation.x,
-			rotationY = transform.rotation.y,
-			rotationZ = transform.rotation.z
-		};
-	}
-
 	private void RotateSoundProber(int dir)
 	{
 		float soundProberW = 2.0f;

@@ -7,24 +7,37 @@ using UnityEngine.UI;
 
 public static class DataUtils
 {
-	public static string CharacterData2String (CharacterData cData)
+	public static string CharacterData02String (CharacterData0 cData)
 	{
-		string header = "CData:";
+		string header = "CData0:";
 		string time = "time: " + cData.Time;
-		string playerID = "playerId:" + cData.playerId;
-		string xyz = String.Format ("xyz: ({0}, {1}, {2})", cData.x, cData.y, cData.z);
-		string rotationXyz = String.Format ("rotation: ({0}, {1}, {2})", cData.rotationX, cData.rotationY, cData.rotationZ);
+		string rotationY = String.Format ("rotationY: ({0})", cData.rotationY);
 
-		return String.Format ("{0} [{1}, {2}, {3}, {4}]", header, playerID, time, xyz, rotationXyz);
+		return String.Format ("{0} [{1}, {2}]", header, time, rotationY);
 	}
 
-	public static CharacterData emptyCharacterData(int playerId) {
-		return new CharacterData {
-			playerId=playerId,
-			x=0, y=0, z=0,
-			rotationX=0,
+	public static CharacterData0 emptyCharacterData0() {
+		return new CharacterData0 {
 			rotationY=0,
-			rotationZ=0,
+		};
+	}
+
+	public static string CharacterData12String (CharacterData1 cData)
+	{
+		string header = "CData1:";
+		string time = "time: " + cData.Time;
+		string xyz = String.Format ("xyz: ({0}, {1}, {2})", cData.x, cData.y, cData.z);
+		string rotationY = String.Format ("rotationY: ({0})", cData.rotationY);
+
+		return String.Format ("{0} [{1}, {2}, {3}]", header, time, xyz, rotationY);
+	}
+
+	public static CharacterData1 emptyCharacterData1() {
+		return new CharacterData1 {
+			x = 0,
+			y = 0,
+			z = 0,
+			rotationY=0,
 		};
 	}
 }
