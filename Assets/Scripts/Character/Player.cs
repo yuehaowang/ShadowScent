@@ -87,6 +87,7 @@ public class Player : MonoBehaviour {
 
 		if (compassControl.changed) {
 			if (playerId == 1) {
+				Debug.Log(compassControl.value);
 				c.YawTo(compassControl.value);
 			} else {
 				RotateSoundProberTo(compassControl.value);
