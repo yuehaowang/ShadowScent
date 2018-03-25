@@ -7,10 +7,7 @@ EditorBuildSettings:
   m_Scenes:
   - enabled: 1
     path: Assets/Scenes/BeginningPage.unity
-    guid: ced37cbeb47d14c9d8307337ae1c9bb0
-  - enabled: 0
-    path: Assets/Scenes/Scene0.unity
-    guid: 207a79021fef4411eb2cad7c214d7e8f
+    guid: f622a1d93452ddc41aa777c8acedc8b1
   - enabled: 1
     path: Assets/Scenes/Scene1.unity
     guid: f91e6557d29984e278df7425668eb68d
