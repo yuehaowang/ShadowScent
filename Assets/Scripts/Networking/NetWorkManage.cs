@@ -9,7 +9,6 @@ using UnityEngine.UI;
 public class NetWorkManage : MonoBehaviour
 {
     // Use this for initialization
-    public int localPlayerIdentity = 1;
 	public CharacterData0 p0Data = DataUtils.emptyCharacterData0();
 	public CharacterData1 p1Data = DataUtils.emptyCharacterData1();
 
@@ -20,7 +19,7 @@ public class NetWorkManage : MonoBehaviour
 
     private async void networkLoop()
     {
-		if (localPlayerIdentity == 0) {
+		if (LevelManage.currentPlayerId == 0) {
 			var upTask0 = DataSync.uploadPlayerData0 (p0Data);
 			var downTask1 = DataSync.getPlayerData1 ();
 			while (true) {
@@ -35,7 +34,7 @@ public class NetWorkManage : MonoBehaviour
 				}
 				await Task.Delay (300);
 			}
-		} else {
+		} else if (LevelManage.currentPlayerId == 1) {
 			var upTask1 = DataSync.uploadPlayerData1 (p1Data);
 			var downTask0 = DataSync.getPlayerData0 ();
 			while (true) {

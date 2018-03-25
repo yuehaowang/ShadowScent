@@ -6,6 +6,7 @@ public class Player : MonoBehaviour {
 
 	public GameObject mainCameraPrefab;
 	public int playerId;
+	public NetWorkManage networkManage;
 	private CompassController compassControl;
 	private TouchController touchControl;
 
@@ -15,6 +16,10 @@ public class Player : MonoBehaviour {
 
 		GameObject mainCamera = Instantiate<GameObject>(mainCameraPrefab, gameObject.transform);
 		mainCamera.tag = "MainCamera";
+
+		networkManage = GameObject.Find("NetWorkManage").GetComponent<NetWorkManage>();
+
+		Debug.Log(networkManage);
 
 		compassControl = new CompassController();
 		touchControl = new TouchController();
@@ -41,6 +46,8 @@ public class Player : MonoBehaviour {
 	void Update()
 	{
 		ControlPlayer();
+
+		UpdateData();
 	}
 
 	private void ControlPlayer()
@@ -98,14 +105,42 @@ public class Player : MonoBehaviour {
 	{
 		float soundProberW = 2.0f;
 
-		GameObject soundProber = transform.Find("SoundProber").gameObject;
-		soundProber.transform.Rotate(new Vector3(0, soundProberW * dir));
+		transform.Find("SoundProber").Rotate(new Vector3(0, soundProberW * dir));
 	}
 
 	private void RotateSoundProberTo(Quaternion eq)
 	{
-		GameObject soundProber = transform.Find("SoundProber").gameObject;
-		soundProber.transform.rotation = Quaternion.Euler(new Vector3(0, -90.0f)) * eq;
+		transform.Find("SoundProber").rotation = Quaternion.Euler(new Vector3(0, -90.0f)) * eq;
+	}
+
+	private void UpdateData()
+	{
+		if (playerId == 0) {
+			networkManage.p0Data = new CharacterData0 {
+				rotationY = 0
+			};
+
+			if (networkManage.p1Data != null) {
+				transform.position = new Vector3(
+					networkManage.p1Data.x,
+					networkManage.p1Data.y,
+					networkManage.p1Data.z
+				);
+
+				GetComponent<Character>().YawTo(Quaternion.Euler(new Vector3(0, networkManage.p1Data.rotationY)));
+			}
+		} else if (playerId == 1) {
+			networkManage.p1Data = new CharacterData1 {
+				x = transform.position.x,
+				y = transform.position.y,
+				z = transform.position.z,
+				rotationY = transform.Find("SoundProber").transform.rotation.eulerAngles.y
+			};
+
+			if (networkManage.p0Data != null) {
+				RotateSoundProberTo(Quaternion.Euler(new Vector3(0, networkManage.p0Data.rotationY)));
+			}
+		}
 	}
 
 }
