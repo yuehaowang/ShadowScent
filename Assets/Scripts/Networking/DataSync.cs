@@ -8,7 +8,8 @@ public static class DataSync {
 
 	private static IMobileServiceTable<CharacterData> characterDataTable_useProperty;
 
-	private static long GetCurrentTimeUnix()  
+	// get current time stamp, the function is derieved from internet
+	private static long GetCurrentTime()  
 	{  
 		TimeSpan cha = (DateTime.Now - TimeZone.CurrentTimeZone.ToLocalTime(new System.DateTime(1970, 1, 1)));  
 		long t = (long)cha.TotalSeconds;  
@@ -16,32 +17,84 @@ public static class DataSync {
 	}
 
 	// upload the characterData
-	public static async Task<int> uploadPlayerData(CharacterData cData)
+	public static async Task uploadPlayerData(CharacterData cData)
 	{
-		try
+		cData.Time = GetCurrentTime();
+		// await uploadAsync(cData);
+
+		var allEntriesBefore = await updateAsync ();
+		// if successfully update the table, then insert latest data, otherwise, the upload is fail
+		if (allEntriesBefore != null) 
 		{
-			cData.Time = GetCurrentTimeUnix();
-			await uploadAsync(cData);
-		}
-		catch (Exception) 
-		{
-			return -1;
+			try
+			{
+				Debug.Log("Uploading player Data to Azure...\n" + DataUtils.CharacterData2String(cData));
+				await characterDataTable.InsertAsync(cData);
+
+				Debug.Log("Finished uploading player data.\n" + DataUtils.CharacterData2String(cData));
+			}
+			catch (System.Exception e)
+			{
+				Debug.Log("Error uploading player data: " + e.Message);
+			}
+			// clear up the historical player data for that player to avoid redundancy
+			foreach (var item in allEntriesBefore)
+			{
+				try
+				{
+					if (item.playerId == cData.playerId) await characterDataTable.DeleteAsync(item);
+				}
+				catch (Exception)
+				{
+					throw;
+				}
+			}
+			Debug.Log ("Delete OK");
 		}
 
-		return 0;
+
 	}
 
 	// get the objective characterData
 	public static async Task<CharacterData> getPlayerData(int playerID)
 	{
 		var allEntries = await updateAsync ();
-		allEntries.Sort((a,b) => a.Time.CompareTo(b.Time));
+		allEntries.Sort ((a, b) => a.Time.CompareTo (b.Time));
 		foreach (var item in allEntries)
 		{
 			if (item.playerId == playerID)
 				return item;
 		}
 		return null;
+	}
+
+	public static async Task outputCharacterData()
+	{
+		var allEntries = await updateAsync ();
+		String output;
+		output = "CharacterData Table:\n";
+		foreach (var item in allEntries)
+		{
+			output += DataUtils.CharacterData2String (item) + "\n";
+		}
+		Debug.Log (output);
+	}
+
+	public static async Task clearCharacterData()
+	{
+		var allEntries = await updateAsync ();
+		foreach (var item in allEntries)
+		{
+			try
+			{
+				await characterDataTable.DeleteAsync(item);
+			}
+			catch (Exception)
+			{
+				throw;
+			}
+		}
+
 	}
 
 	public static IMobileServiceTable<CharacterData> characterDataTable
@@ -71,38 +124,8 @@ public static class DataSync {
 		}
 	}
 
-	private static async Task<int> uploadAsync(CharacterData cData)
+	private static async Task uploadAsync(CharacterData cData)
 	{
-		var allEntriesBefore = updateAsync ().Result;
-		// if successfully update the table, then insert latest data, otherwise, the upload is fail
-		if (allEntriesBefore != null) 
-		{
-			try
-			{
-				Debug.Log("Uploading player Data to Azure...");
-
-				await characterDataTable.InsertAsync(cData);
-
-				Debug.Log("Finished uploading player data.");
-			}
-			catch (System.Exception e)
-			{
-				Debug.Log("Error uploading player data: " + e.Message);
-			}
-		}
-		// clear up the historical player data for that player to avoid redundancy
-		foreach (var item in allEntriesBefore)
-		{
-			try
-			{
-				if (item.playerId == cData.playerId) await characterDataTable.DeleteAsync(item);
-			}
-			catch (Exception)
-			{
-				throw;
-			}
-		}
-
-		return 0;
+		
 	}
 }
