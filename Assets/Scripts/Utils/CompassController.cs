@@ -18,6 +18,11 @@ public class CompassController
 		lmh = Input.compass.magneticHeading;
 		llmh = Input.compass.magneticHeading;
 		lmhft = Input.compass.magneticHeading;
+
+		// revise the magnetic heading.
+		for (int i = 0; i < 3; i++) {
+			Update();
+		}
 	}
 
 	public void Debug()
