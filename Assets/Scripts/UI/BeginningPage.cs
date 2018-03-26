@@ -17,7 +17,13 @@ public class BeginningPage : MonoBehaviour
 
     void Update()
     {
+		if (touchControl == null) {
+			return;
+		}
+
         touchControl.Update();
+
+		#if UNITY_EDITOR
 
         if (touchControl.directionX == TouchController.Direction.NONE && !Input.anyKey)
         {
@@ -31,6 +37,23 @@ public class BeginningPage : MonoBehaviour
         {
             LevelManage.currentPlayerId = 1;
         }
+
+		#else
+
+		if (touchControl.directionX == TouchController.Direction.NONE)
+		{
+			return;
+		}
+		if (touchControl.directionX == TouchController.Direction.LEFT)
+		{
+			LevelManage.currentPlayerId = 0;
+		}
+		else if (touchControl.directionX == TouchController.Direction.RIGHT)
+		{
+			LevelManage.currentPlayerId = 1;
+		}
+
+		#endif
 
         SceneManager.LoadScene(LevelManage.levelList[0]);
     }

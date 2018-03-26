@@ -50,7 +50,6 @@ public class TouchController
 					prePosX = t.position.x;
 				}
 
-
 				break;
 
 			case TouchPhase.Ended:
