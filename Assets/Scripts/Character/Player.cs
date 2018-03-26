@@ -135,7 +135,7 @@ public class Player : MonoBehaviour {
 				x = transform.position.x,
 				y = transform.position.y,
 				z = transform.position.z,
-				rotationY = transform.Find("SoundProber").transform.rotation.eulerAngles.y
+				rotationY = transform.rotation.eulerAngles.y
 			};
 
 			if (networkManage.p0Data != null) {
