@@ -23,39 +23,24 @@ public class BeginningPage : MonoBehaviour
 
         touchControl.Update();
 
-		#if UNITY_EDITOR
+		bool isLoadScene = false;
 
-        if (touchControl.directionX == TouchController.Direction.NONE && !Input.anyKey)
-        {
-            return;
-        }
-        if (touchControl.directionX == TouchController.Direction.LEFT || Input.GetKey(KeyCode.A))
-        {
-            LevelManage.currentPlayerId = 0;
-        }
-        else if (touchControl.directionX == TouchController.Direction.RIGHT || Input.GetKey(KeyCode.D))
-        {
-            LevelManage.currentPlayerId = 1;
-        }
-
-		#else
-
-		if (touchControl.directionX == TouchController.Direction.NONE)
-		{
-			return;
-		}
-		if (touchControl.directionX == TouchController.Direction.LEFT)
+		if (touchControl.directionX == TouchController.Direction.LEFT || Input.GetKey(KeyCode.A))
 		{
 			LevelManage.currentPlayerId = 0;
+
+			isLoadScene = true;
 		}
-		else if (touchControl.directionX == TouchController.Direction.RIGHT)
+		else if (touchControl.directionX == TouchController.Direction.RIGHT || Input.GetKey(KeyCode.D))
 		{
 			LevelManage.currentPlayerId = 1;
+
+			isLoadScene = true;
 		}
 
-		#endif
-
-        SceneManager.LoadScene(LevelManage.levelList[0]);
+		if (isLoadScene) {
+			SceneManager.LoadScene(LevelManage.levelList[0]);
+		}
     }
 
 }
