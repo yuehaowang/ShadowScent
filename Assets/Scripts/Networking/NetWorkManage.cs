@@ -32,14 +32,14 @@ public class NetWorkManage : MonoBehaviour
 					this.p1Data = await downTask1;
 					downTask1 = DataSync.getPlayerData1 ();
 				}
-				await Task.Delay (300);
+				// await Task.Delay (300);
 			}
 		} else if (LevelManage.currentPlayerId == 1) {
 			var upTask1 = DataSync.uploadPlayerData1 (p1Data);
 			var downTask0 = DataSync.getPlayerData0 ();
 			while (true) {
 				if (upTask1.IsCompleted) {
-					this.p0Data.Id = Guid.NewGuid ().ToString ();
+					this.p1Data.Id = Guid.NewGuid ().ToString ();
 					await upTask1;
 					upTask1 = DataSync.uploadPlayerData1 (p1Data);
 				}
@@ -47,7 +47,7 @@ public class NetWorkManage : MonoBehaviour
 					this.p0Data = await downTask0;
 					downTask0 = DataSync.getPlayerData0 ();
 				}
-				await Task.Delay (300);
+				// await Task.Delay (300);
 			}
 		}
     }

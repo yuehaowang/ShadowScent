@@ -24,11 +24,17 @@ public class Character : MonoBehaviour {
 
 	public void YawTo(Quaternion eq)
 	{
-		body.MoveRotation(eq);
+		if (body != null) {
+			body.MoveRotation(eq);
+		}
 	}
 
 	public void Yaw(int dir)
 	{
+		if (body != null) {
+			return;
+		}
+
 		if (dir == 0) {
 			return;
 		}

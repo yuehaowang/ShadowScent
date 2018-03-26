@@ -13,6 +13,7 @@ public class Player : MonoBehaviour {
 	void Start ()
 	{
 		playerId = LevelManage.currentPlayerId;
+		Debug.Log(playerId);
 
 		GameObject mainCamera = Instantiate<GameObject>(mainCameraPrefab, gameObject.transform);
 		mainCamera.tag = "MainCamera";
@@ -110,14 +111,14 @@ public class Player : MonoBehaviour {
 
 	private void RotateSoundProberTo(Quaternion eq)
 	{
-		transform.Find("SoundProber").rotation = Quaternion.Euler(new Vector3(0, -90.0f)) * eq;
+		transform.Find("SoundProber").localRotation = Quaternion.Euler(new Vector3(0, -90.0f)) * eq;
 	}
 
 	private void UpdateData()
 	{
 		if (playerId == 0) {
 			networkManage.p0Data = new CharacterData0 {
-				rotationY = 0
+				rotationY = transform.Find("SoundProber").localRotation.eulerAngles.y
 			};
 
 			if (networkManage.p1Data != null) {
