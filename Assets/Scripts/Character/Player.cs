@@ -139,7 +139,7 @@ public class Player : MonoBehaviour {
 			};
 
 			if (networkManage.p0Data != null) {
-				RotateSoundProberTo(Quaternion.Euler(new Vector3(0, networkManage.p0Data.rotationY)));
+				RotateSoundProberTo(Quaternion.Euler(new Vector3(0, networkManage.p0Data.rotationY + 90)));
 			}
 		}
 	}

@@ -31,7 +31,7 @@ public class Character : MonoBehaviour {
 
 	public void Yaw(int dir)
 	{
-		if (body != null) {
+		if (body == null) {
 			return;
 		}
 
