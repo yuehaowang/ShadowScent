@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 135847536315601724}
   - component: {fileID: 108200313039539044}
   - component: {fileID: 82249057901786632}
+  - component: {fileID: 114389945840393920}
   m_Layer: 8
   m_Name: Key
   m_TagString: Key
@@ -302,6 +303,17 @@ Light:
   m_UseColorTemperature: 0
   m_ShadowRadius: 0
   m_ShadowAngle: 0
+--- !u!114 &114389945840393920
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1188472624321848}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49d47044769e8460e99a1eb382840922, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!135 &135847536315601724
 SphereCollider:
   m_ObjectHideFlags: 1

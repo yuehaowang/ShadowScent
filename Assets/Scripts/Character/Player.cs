@@ -13,17 +13,19 @@ public class Player : MonoBehaviour {
 	void Start ()
 	{
 		playerId = LevelManage.currentPlayerId;
-		Debug.Log(playerId);
 
 		GameObject mainCamera = Instantiate<GameObject>(mainCameraPrefab, gameObject.transform);
 		mainCamera.tag = "MainCamera";
 
 		networkManage = GameObject.Find("NetWorkManage").GetComponent<NetWorkManage>();
 
-		Debug.Log(networkManage);
-
 		compassControl = new CompassController();
 		touchControl = new TouchController();
+
+		if (playerId == 1) {
+			GameObject curtain = GameObject.Find("Curtain");
+			Destroy(curtain);
+		}
 	}
 
 	void OnCollisionEnter(Collision c) {

@@ -27,10 +27,6 @@ public class KeyManage : MonoBehaviour {
 	private int currentKeyIndex = 0;
 	private GameObject currentKey;
 
-	void Start () {
-		
-	}
-
 	void Update () {
 		if (currentKeyIndex < 5 && !currentKey) {
 			KeyPosPair pos = keyPosList[currentKeyIndex];
