@@ -7,7 +7,7 @@ public class sanityTest : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		Task.Run(TestMain);
+		TestMain();
 	}
 
 	private void TestMain()
