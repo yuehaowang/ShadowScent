@@ -14,6 +14,7 @@ public class TouchController
 	public float threshold = 40.0f;
 	public Direction directionX = Direction.NONE;
 	public Direction directionY = Direction.NONE;
+	public int touchCount = 0;
 
 	public void Update()
 	{
@@ -59,5 +60,7 @@ public class TouchController
 				break;
 			}
 		}
+
+		touchCount = Input.touchCount;
 	}
 }

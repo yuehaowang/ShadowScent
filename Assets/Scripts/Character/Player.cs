@@ -21,11 +21,6 @@ public class Player : MonoBehaviour {
 
 		compassControl = new CompassController();
 		touchControl = new TouchController();
-
-		if (playerId == 1) {
-			GameObject curtain = GameObject.Find("Curtain");
-			Destroy(curtain);
-		}
 	}
 
 	void OnCollisionEnter(Collision c) {
@@ -36,7 +31,7 @@ public class Player : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider c) {
-		if (c.gameObject.tag == "Key") {
+		if (c.gameObject.tag == "Key" && c.gameObject.GetComponent<Key>().isVisible) {
 			Destroy(c.gameObject);
 		}
 	}
@@ -50,12 +45,12 @@ public class Player : MonoBehaviour {
 	{
 		ControlPlayer();
 
-		UpdateData();
+//		UpdateData();
 	}
 
 	private void ControlPlayer()
 	{
-		int moveDir = 0;
+		int moveDir = 0, emitRay = 0;
 		Character c = GetComponent<Character>();
 
 		if (playerId == 1) {
@@ -65,16 +60,27 @@ public class Player : MonoBehaviour {
 			if (Input.GetKey(KeyCode.S)) {
 				moveDir = -1;
 			}
+			if (Input.GetKey(KeyCode.Space)) {
+				emitRay = 1;
+			}
 
 			touchControl.Update();
 
-			if (touchControl.directionY == TouchController.Direction.UP) {
-				moveDir = 1;
-			} else if (touchControl.directionY == TouchController.Direction.DOWN) {
-				moveDir = -1;
+			if (touchControl.touchCount >= 3) {
+				emitRay = 1;
+			} else {
+				if (touchControl.directionY == TouchController.Direction.UP) {
+					moveDir = 1;
+				} else if (touchControl.directionY == TouchController.Direction.DOWN) {
+					moveDir = -1;
+				}
 			}
 
 			c.Propel(moveDir);
+
+			if (emitRay == 1) {
+				EmitRaycast();
+			}
 		}
 
 		if (Input.GetKey(KeyCode.A)) {
@@ -83,7 +89,6 @@ public class Player : MonoBehaviour {
 			} else {
 				RotateSoundProber(-1);
 			}
-				
 		}
 		if (Input.GetKey(KeyCode.D)) {
 			if (playerId == 1) {
@@ -100,6 +105,18 @@ public class Player : MonoBehaviour {
 				c.YawTo(compassControl.value);
 			} else {
 				RotateSoundProberTo(compassControl.value);
+			}
+		}
+	}
+
+	private void EmitRaycast()
+	{
+		RaycastHit hit;
+		Vector3 fwd = transform.Find("SoundProber").TransformDirection(Vector3.right);
+
+		if (Physics.Raycast(transform.position, fwd, out hit, 100.0f)) {
+			if (hit.collider.gameObject.tag == "Key") {
+				hit.collider.gameObject.GetComponent<Key>().SetVisible(true);
 			}
 		}
 	}

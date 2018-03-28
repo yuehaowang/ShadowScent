@@ -27,10 +27,10 @@ public class CompassController
 
 	public void Debug()
 	{
-		GUILayout.Label(Input.gyro.attitude.ToString());
-		GUILayout.Label(Input.compass.magneticHeading.ToString());
-		GUILayout.Label(basis.ToString());
-		GUILayout.Label(mh.ToString());
+		GUILayout.Label("Input.gyro.attitude: " + Input.gyro.attitude.ToString());
+		GUILayout.Label("Input.compass.magneticHeading: " + Input.compass.magneticHeading.ToString());
+		GUILayout.Label("basis: " + basis.ToString());
+		GUILayout.Label("mh: " + mh.ToString());
 	}
 
 	public void Update()

@@ -14,7 +14,7 @@ public class NetWorkManage : MonoBehaviour
 
     void Start()
     {
-        networkLoop();
+//        networkLoop();
     }
 
     private async void networkLoop()
