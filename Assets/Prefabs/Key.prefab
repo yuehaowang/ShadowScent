@@ -20,9 +20,9 @@ GameObject:
   m_Component:
   - component: {fileID: 4341192065148012}
   - component: {fileID: 135847536315601724}
-  - component: {fileID: 108200313039539044}
   - component: {fileID: 82249057901786632}
   - component: {fileID: 114389945840393920}
+  - component: {fileID: 95066198114338560}
   m_Layer: 0
   m_Name: Key
   m_TagString: Key
@@ -267,42 +267,23 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 0
---- !u!108 &108200313039539044
-Light:
+--- !u!95 &95066198114338560
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1188472624321848}
   m_Enabled: 1
-  serializedVersion: 8
-  m_Type: 2
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 5
-  m_Range: 48.562744
-  m_SpotAngle: 30
-  m_CookieSize: 10
-  m_Shadows:
-    m_Type: 2
-    m_Resolution: -1
-    m_CustomResolution: -1
-    m_Strength: 1
-    m_Bias: 0.05
-    m_NormalBias: 0.4
-    m_NearPlane: 0.2
-  m_Cookie: {fileID: 0}
-  m_DrawHalo: 0
-  m_Flare: {fileID: 0}
-  m_RenderMode: 0
-  m_CullingMask:
-    serializedVersion: 2
-    m_Bits: 4294967295
-  m_Lightmapping: 4
-  m_AreaSize: {x: 1, y: 1}
-  m_BounceIntensity: 1
-  m_ColorTemperature: 6570
-  m_UseColorTemperature: 0
-  m_ShadowRadius: 0
-  m_ShadowAngle: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 4f395bc5a9eb84452b53b3f63194ff7a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
 --- !u!114 &114389945840393920
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -314,6 +295,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49d47044769e8460e99a1eb382840922, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isVisible: 0
 --- !u!135 &135847536315601724
 SphereCollider:
   m_ObjectHideFlags: 1

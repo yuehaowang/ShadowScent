@@ -23,9 +23,10 @@ public class Key : MonoBehaviour {
 			mesh.enabled = flag;
 		}
 
-		Light l = GetComponent<Light>();
-		l.enabled = flag;
+		Animator anim = GetComponent<Animator>();
+		anim.SetBool("isVisible", flag);
 
 		isVisible = flag;
 	}
+
 }
