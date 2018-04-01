@@ -4,29 +4,42 @@
 
 **player_connection**
 
-```json
+```
 {
-	"uid" : Number				// 0 for sound mode player, 1 for visual mode player
-	"operation" : Number		// 0 for login, 1 for logout
+	// 0 for sound mode player, 1 for visual mode player
+	"uid" : Number,
+
+	// 0 for login, 1 for logout
+	"operation" : Number
 }
 ```
 
 **player1_action**
 
-```json
+```
 {
-	"rotationDir" : Int, 		// -1 for anti-clockwise, 1 for clockwise
-	"rotationAngle" : Float,	// target angle
-	"positionX" : Float			// target x coordinate
-	"positionY" : Float			// target y coordinate
+	// -1 for anti-clockwise, 1 for clockwise
+	"rotationDir" : Int,
+
+	// target angle
+	"rotationAngle" : Float,
+
+	// target x coordinate
+	"positionX" : Float,
+
+	// target y coordinate
+	"positionY" : Float
 }
 ```
 
 **player0_action**
 
-```json
+```
 {
-	"rotationDir" : Int, 		// -1 for anti-clockwise, 1 for clockwise
-	"rotationAngle" : Float	// target angle
+	// -1 for anti-clockwise, 1 for clockwise
+	"rotationDir" : Int,
+
+	// target angle
+	"rotationAngle" : Float
 }
 ```
