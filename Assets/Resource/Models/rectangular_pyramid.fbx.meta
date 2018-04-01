@@ -1,43 +1,16 @@
 fileFormatVersion: 2
-guid: 70ba5d4d83abf4407a6d7ca635c75a1e
-timeCreated: 1520682953
+guid: fa783a347e8004967a891e0c4437a7d4
+timeCreated: 1522496554
 licenseType: Free
 ModelImporter:
   serializedVersion: 22
   fileIDToRecycleName:
     100000: //RootNode
-    100002: Line001
-    100004: Line002
-    100006: Line003
-    100008: Line004
-    100010: Sphere001
-    100012: Sphere002
     400000: //RootNode
-    400002: Line001
-    400004: Line002
-    400006: Line003
-    400008: Line004
-    400010: Sphere001
-    400012: Sphere002
     2100000: No Name
-    2300000: Line001
-    2300002: Line002
-    2300004: Line003
-    2300006: Line004
-    2300008: Sphere001
-    2300010: Sphere002
-    3300000: Line001
-    3300002: Line002
-    3300004: Line003
-    3300006: Line004
-    3300008: Sphere001
-    3300010: Sphere002
-    4300000: Line001
-    4300002: Line002
-    4300004: Line003
-    4300006: Line004
-    4300008: Sphere001
-    4300010: Sphere002
+    2300000: //RootNode
+    3300000: //RootNode
+    4300000: Pyramid001
     9500000: //RootNode
   externalObjects: {}
   materials:

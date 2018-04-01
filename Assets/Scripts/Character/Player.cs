@@ -5,6 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour {
 
 	public GameObject mainCameraPrefab;
+	public ParticleSystem raycastPrefab;
 	public int playerId;
 //	public NetWorkManage networkManage;
 	private CompassController compassControl;
@@ -111,13 +112,22 @@ public class Player : MonoBehaviour {
 
 	private void EmitRaycast()
 	{
+		Transform spTrans = transform.Find("SoundProber");
+
+		Instantiate<ParticleSystem>(raycastPrefab, spTrans);
+
 		RaycastHit hit;
-		Vector3 fwd = transform.Find("SoundProber").TransformDirection(Vector3.right);
+		Vector3 fwd = spTrans.TransformDirection(Vector3.right);
 
 		if (Physics.Raycast(transform.position, fwd, out hit, 95.0f)) {
-			if (hit.collider.gameObject.tag == "Key") {
-				Debug.Log(hit.distance);
-				hit.collider.gameObject.GetComponent<Key>().SetVisible(true);
+			GameObject gameObj = hit.collider.gameObject;
+
+			if (gameObj.tag == "Key") {
+				Key k = gameObj.GetComponent<Key>();
+
+				if (!k.isVisible) {
+					k.SetVisible(true);
+				}
 			}
 		}
 	}
