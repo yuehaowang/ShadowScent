@@ -7,20 +7,17 @@
 ```
 {
 	// 0 for sound mode player, 1 for visual mode player
-	"uid" : Number,
+	"uid" : Int,
 
 	// 0 for login, 1 for logout
-	"operation" : Number
+	"operation" : Int
 }
 ```
 
-**player1_action**
+**player1_transform**
 
 ```
 {
-	// -1 for anti-clockwise, 1 for clockwise
-	"rotationDir" : Int,
-
 	// target angle
 	"rotationAngle" : Float,
 
@@ -28,18 +25,28 @@
 	"positionX" : Float,
 
 	// target y coordinate
-	"positionY" : Float
+	"positionZ" : Float
 }
 ```
 
-**player0_action**
+**player0_transform**
 
 ```
 {
-	// -1 for anti-clockwise, 1 for clockwise
-	"rotationDir" : Int,
-
 	// target angle
 	"rotationAngle" : Float
 }
 ```
+
+**player_get_key**
+```
+{
+	"index" : Int
+}
+```
+
+**player_emit_raycast**
+{
+	"dirX" : Float,
+	"dirY" : Float 
+}

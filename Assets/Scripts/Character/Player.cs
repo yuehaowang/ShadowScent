@@ -7,7 +7,7 @@ public class Player : MonoBehaviour {
 	public GameObject mainCameraPrefab;
 	public ParticleSystem raycastPrefab;
 	public int playerId;
-//	public NetWorkManage networkManage;
+	public SocketIONetworking networkingManage;
 	private CompassController compassControl;
 	private TouchController touchControl;
 
@@ -18,10 +18,10 @@ public class Player : MonoBehaviour {
 		GameObject mainCamera = Instantiate<GameObject>(mainCameraPrefab, gameObject.transform);
 		mainCamera.tag = "MainCamera";
 
-//		networkManage = GameObject.Find("NetWorkManage").GetComponent<NetWorkManage>();
-
 		compassControl = new CompassController();
 		touchControl = new TouchController();
+
+		networkingManage = GameObject.Find("NetworkManage").GetComponent<SocketIONetworking>();
 	}
 
 	void OnCollisionEnter(Collision c) {
@@ -39,20 +39,25 @@ public class Player : MonoBehaviour {
 
 	void OnGUI()
 	{
+		#if UNITY_EDITOR
+
 		compassControl.Debug();
+
+		#endif
 	}
 
 	void Update()
 	{
-		ControlPlayer();
+		Character c = GetComponent<Character>();
 
-//		UpdateData();
+		ControlPlayer(c);
+
+		UpdateData(c);
 	}
 
-	private void ControlPlayer()
+	private void ControlPlayer(Character c)
 	{
 		int moveDir = 0, emitRay = 0;
-		Character c = GetComponent<Character>();
 
 		if (playerId == 1) {
 			if (Input.GetKey(KeyCode.W)) {
@@ -61,41 +66,44 @@ public class Player : MonoBehaviour {
 			if (Input.GetKey(KeyCode.S)) {
 				moveDir = -1;
 			}
-			if (Input.GetKey(KeyCode.Space)) {
-				emitRay = 1;
-			}
+		}
 
-			touchControl.Update();
+		touchControl.Update();
 
-			if (touchControl.touchCount >= 3) {
-				emitRay = 1;
-			} else {
-				if (touchControl.directionY == TouchController.Direction.UP) {
-					moveDir = 1;
-				} else if (touchControl.directionY == TouchController.Direction.DOWN) {
-					moveDir = -1;
-				}
-			}
-
-			c.Propel(moveDir);
-
-			if (emitRay == 1) {
-				EmitRaycast();
+		if (touchControl.touchCount >= 3) {
+			emitRay = 1;
+		} else if (playerId == 1) {
+			if (touchControl.directionY == TouchController.Direction.UP) {
+				moveDir = 1;
+			} else if (touchControl.directionY == TouchController.Direction.DOWN) {
+				moveDir = -1;
 			}
 		}
+
+		c.Propel(moveDir);
 
 		if (Input.GetKey(KeyCode.A)) {
 			if (playerId == 1) {
 				c.Yaw(-1);
-			} else {
+			} else if (playerId == 0) {
 				RotateSoundProber(-1);
 			}
 		}
 		if (Input.GetKey(KeyCode.D)) {
 			if (playerId == 1) {
 				c.Yaw(1);
-			} else {
+			} else if (playerId == 0) {
 				RotateSoundProber(1);
+			}
+		}
+
+		if (playerId == 1) {
+			if (Input.GetKey(KeyCode.Space)) {
+				emitRay = 1;
+			}
+
+			if (emitRay == 1) {
+				EmitRaycast();
 			}
 		}
 
@@ -104,7 +112,7 @@ public class Player : MonoBehaviour {
 		if (compassControl.changed) {
 			if (playerId == 1) {
 				c.YawTo(compassControl.value);
-			} else {
+			} else if (playerId == 0) {
 				RotateSoundProberTo(compassControl.value);
 			}
 		}
@@ -121,6 +129,8 @@ public class Player : MonoBehaviour {
 
 		if (Physics.Raycast(transform.position, fwd, out hit, 95.0f)) {
 			GameObject gameObj = hit.collider.gameObject;
+
+			Debug.Log("hit: " + gameObj.name);
 
 			if (gameObj.tag == "Key") {
 				Key k = gameObj.GetComponent<Key>();
@@ -144,34 +154,29 @@ public class Player : MonoBehaviour {
 		transform.Find("SoundProber").localRotation = Quaternion.Euler(new Vector3(0, -90.0f)) * eq;
 	}
 
-	private void UpdateData()
+	private void UpdateData(Character c)
 	{
-//		if (playerId == 0) {
-//			networkManage.p0Data = new CharacterData0 {
-//				rotationY = transform.Find("SoundProber").localRotation.eulerAngles.y
-//			};
-//
-//			if (networkManage.p1Data != null) {
-//				transform.position = new Vector3(
-//					networkManage.p1Data.x,
-//					networkManage.p1Data.y,
-//					networkManage.p1Data.z
-//				);
-//
-//				GetComponent<Character>().YawTo(Quaternion.Euler(new Vector3(0, networkManage.p1Data.rotationY)));
-//			}
-//		} else if (playerId == 1) {
-//			networkManage.p1Data = new CharacterData1 {
-//				x = transform.position.x,
-//				y = transform.position.y,
-//				z = transform.position.z,
-//				rotationY = transform.rotation.eulerAngles.y
-//			};
-//
-//			if (networkManage.p0Data != null) {
-//				RotateSoundProberTo(Quaternion.Euler(new Vector3(0, networkManage.p0Data.rotationY + 90)));
-//			}
-//		}
+		if (playerId == 0) {
+			networkingManage.p0Transform.rotationAngle = transform.Find("SoundProber").rotation.eulerAngles.y - 90;
+
+			Player1Transform p1Trans = networkingManage.p1Transform;
+
+			c.MoveTo(new Vector3(
+				p1Trans.positionX,
+				transform.position.y,
+				p1Trans.positionZ
+			));
+
+			c.YawTo(Quaternion.Euler(0, p1Trans.rotationAngle, 0));
+		} else if (playerId == 1) {
+			Vector3 pos = transform.position;
+
+			networkingManage.p1Transform.positionX = pos.x;
+			networkingManage.p1Transform.positionZ = pos.z;
+			networkingManage.p1Transform.rotationAngle = transform.rotation.eulerAngles.y;
+
+			RotateSoundProberTo(Quaternion.Euler(0, networkingManage.p0Transform.rotationAngle, 0));
+		}
 	}
 
 }

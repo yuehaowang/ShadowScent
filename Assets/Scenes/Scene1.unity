@@ -2065,7 +2065,7 @@ GameObject:
   - component: {fileID: 812523310}
   - component: {fileID: 812523309}
   m_Layer: 0
-  m_Name: NetWorkManage
+  m_Name: NetworkManage
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2079,7 +2079,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 812523308}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c0d42a3d51d3b074482dc61d5b6a5405, type: 3}
+  m_Script: {fileID: 11500000, guid: b4e951a4b77234570b388b5cfc4d1e7f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &812523310

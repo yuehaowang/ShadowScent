@@ -22,6 +22,11 @@ public class Character : MonoBehaviour {
 		body.MovePosition(transform.position + transform.forward * v * dir);
 	}
 
+	public void MoveTo(Vector3 pos)
+	{
+		body.MovePosition(pos);
+	}
+
 	public void YawTo(Quaternion eq)
 	{
 		if (body != null) {

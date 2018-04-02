@@ -10,7 +10,6 @@ public class CharacterManage : MonoBehaviour
     public GameObject playerPrefab;
 	private GameObject player;
 
-
     void Start()
     {
 		player = Instantiate<GameObject>(playerPrefab, gameObject.transform);	
