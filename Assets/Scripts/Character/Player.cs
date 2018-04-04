@@ -97,7 +97,7 @@ public class Player : MonoBehaviour {
 			}
 		}
 
-		if (playerId == 1) {
+		if (playerId == 0) {
 			if (Input.GetKey(KeyCode.Space)) {
 				emitRay = 1;
 			}
@@ -157,7 +157,7 @@ public class Player : MonoBehaviour {
 	private void UpdateData(Character c)
 	{
 		if (playerId == 0) {
-			networkingManage.p0Transform.rotationAngle = transform.Find("SoundProber").rotation.eulerAngles.y - 90;
+			networkingManage.p0Transform.rotationAngle = transform.Find("SoundProber").localRotation.eulerAngles.y + 90;
 
 			Player1Transform p1Trans = networkingManage.p1Transform;
 

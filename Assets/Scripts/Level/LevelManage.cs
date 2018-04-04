@@ -12,9 +12,8 @@ public class LevelManage : MonoBehaviour {
 
     void Start ()
 	{
-
 		if (currentPlayerId == 0) {
-			Instantiate<GameObject>(curtainPrefab);
+			Instantiate<GameObject>(curtainPrefab, GameObject.Find("UICanvas").transform);
 		}
 	}
 

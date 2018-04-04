@@ -1,6 +1,19 @@
 # Shadow Scent
 
-## SocketIO Interface
+## SocketIO
+
+### Interface
+
+**player0** and **player1**
+
+```
+{
+	operation : String,
+	data : String
+}
+```
+
+### Operation Types
 
 **player_connection**
 
