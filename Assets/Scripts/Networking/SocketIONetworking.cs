@@ -19,7 +19,7 @@ public class SocketIONetworking : MonoBehaviour {
 	private bool playerConnected = false;
 
 	// used to limit the frequency of sending message.
-	private int frameRate = 10, frameRateIndex = 0;
+	private int frameRate = 5, frameRateIndex = 0;
 
 	private const string serverURL = "http://ss.chinacloudsites.cn/";
 	private Socket socket = null;
