@@ -10,6 +10,7 @@ public class Player : MonoBehaviour {
 	public SocketIONetworking networkingManage;
 	private CompassController compassControl;
 	private TouchController touchControl;
+	private bool isEmittingRaycast = false;
 
 	void Start ()
 	{
@@ -53,11 +54,13 @@ public class Player : MonoBehaviour {
 		ControlPlayer(c);
 
 		UpdateData(c);
+
+		EmitRaycast();
 	}
 
 	private void ControlPlayer(Character c)
 	{
-		int moveDir = 0, emitRay = 0;
+		int moveDir = 0;
 
 		if (playerId == 1) {
 			if (Input.GetKey(KeyCode.W)) {
@@ -71,7 +74,9 @@ public class Player : MonoBehaviour {
 		touchControl.Update();
 
 		if (touchControl.touchCount >= 3) {
-			emitRay = 1;
+			if (playerId == 0) {
+				isEmittingRaycast = true;
+			}
 		} else if (playerId == 1) {
 			if (touchControl.directionY == TouchController.Direction.UP) {
 				moveDir = 1;
@@ -96,14 +101,10 @@ public class Player : MonoBehaviour {
 				RotateSoundProber(1);
 			}
 		}
-
-		if (playerId == 0) {
-			if (Input.GetKey(KeyCode.Space)) {
-				emitRay = 1;
-			}
-
-			if (emitRay == 1) {
-				EmitRaycast();
+			
+		if (Input.GetKey(KeyCode.Space)) {
+			if (playerId == 0) {
+				isEmittingRaycast = true;
 			}
 		}
 
@@ -120,6 +121,10 @@ public class Player : MonoBehaviour {
 
 	private void EmitRaycast()
 	{
+		if (!isEmittingRaycast) {
+			return;
+		}
+
 		Transform spTrans = transform.Find("SoundProber");
 
 		Instantiate<ParticleSystem>(raycastPrefab, spTrans);
@@ -140,6 +145,8 @@ public class Player : MonoBehaviour {
 				}
 			}
 		}
+
+		isEmittingRaycast = false;
 	}
 
 	private void RotateSoundProber(int dir)
@@ -157,25 +164,34 @@ public class Player : MonoBehaviour {
 	private void UpdateData(Character c)
 	{
 		if (playerId == 0) {
-			networkingManage.p0Transform.rotationAngle = transform.Find("SoundProber").localRotation.eulerAngles.y + 90;
+			networkingManage.p0Data.rotationAngle = transform.Find("SoundProber").localRotation.eulerAngles.y + 90;
+			networkingManage.p0Data.emitRaycast = isEmittingRaycast;
 
-			Player1Transform p1Trans = networkingManage.p1Transform;
+			Player1Data p1Data = networkingManage.p1Data;
 
-			c.MoveTo(new Vector3(
-				p1Trans.positionX,
-				transform.position.y,
-				p1Trans.positionZ
-			));
+			if (p1Data.connected) {
+				c.MoveTo(new Vector3(
+					p1Data.positionX,
+					transform.position.y,
+					p1Data.positionZ
+				));
 
-			c.YawTo(Quaternion.Euler(0, p1Trans.rotationAngle, 0));
+				c.YawTo(Quaternion.Euler(0, p1Data.rotationAngle, 0));
+			}
 		} else if (playerId == 1) {
 			Vector3 pos = transform.position;
 
-			networkingManage.p1Transform.positionX = pos.x;
-			networkingManage.p1Transform.positionZ = pos.z;
-			networkingManage.p1Transform.rotationAngle = transform.rotation.eulerAngles.y;
+			networkingManage.p1Data.positionX = pos.x;
+			networkingManage.p1Data.positionZ = pos.z;
+			networkingManage.p1Data.rotationAngle = transform.rotation.eulerAngles.y;
 
-			RotateSoundProberTo(Quaternion.Euler(0, networkingManage.p0Transform.rotationAngle, 0));
+			Player0Data p0Data = networkingManage.p0Data;
+
+			if (p0Data.connected) {
+				RotateSoundProberTo(Quaternion.Euler(0, p0Data.rotationAngle, 0));
+
+				isEmittingRaycast = p0Data.emitRaycast;
+			}
 		}
 	}
 
