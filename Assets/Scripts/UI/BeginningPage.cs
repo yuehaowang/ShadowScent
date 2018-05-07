@@ -33,10 +33,6 @@ public class BeginningPage : MonoBehaviour
 			LevelManage.currentPlayerId = 1;
 
 			isLoadScene = true;
-		} else if (touchControl.directionX == TouchController.Direction.UP || Input.GetKey (KeyCode.W)) {
-			eventSystem.GetComponent<RegisterPad> ().EnterRegisterMode ();
-		} else if (touchControl.directionX == TouchController.Direction.DOWN || Input.GetKey (KeyCode.S)) {
-			eventSystem.GetComponent<RegisterPad> ().LeaveRegisterMode ();
 		}
 
 		if (isLoadScene) {
